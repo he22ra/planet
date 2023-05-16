@@ -4,10 +4,10 @@ import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
 @SpringBootApplication
-public class He22raApplication {
+public class PlanetApplication {
 
 	public static void main(String[] args) {
-		SpringApplication.run(He22raApplication.class, args);
+		SpringApplication.run(PlanetApplication.class, args);
 	}
 
 }
