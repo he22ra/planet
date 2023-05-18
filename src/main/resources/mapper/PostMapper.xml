@@ -52,7 +52,7 @@
         SET
               modified_date = NOW()
             , title = #{title}
-            , content = #{content}
+            , contents = #{contents}
             , writer = #{writer}
             , notice_yn = #{noticeYn}
         WHERE
