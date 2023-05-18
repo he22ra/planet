@@ -17,7 +17,7 @@ public interface PostMapper {
 	 * @Param id - PK
 	 * @return 게시글 상세정보
 	 */
-	PostRequest findById(Long id);
+	PostResponse findById(Long id);
 	
 	/*
 	 * 게시글 수정
