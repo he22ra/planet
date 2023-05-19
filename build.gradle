@@ -27,20 +27,18 @@ repositories {
 
 dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-thymeleaf'
+	implementation 'nz.net.ultraq.thymeleaf:thymeleaf-layout-dialect' /* Thymeleaf Layout */
 	implementation 'org.springframework.boot:spring-boot-starter-web'
+	implementation 'com.google.code.gson:gson'
+	implementation 'com.h2database:h2'
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
-	developmentOnly 'org.springframework.boot:spring-boot-devtools'
-	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'	//jpa는 테이블 조인이 원활하지 않음
 	
 	// https://mvnrepository.com/artifact/javax.transaction/javax.transaction-api
-	implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'
-	
-	implementation 'com.google.code.gson:gson'
+	implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'	
     implementation 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
-    implementation 'com.h2database:h2'
 	
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql 코드 붙여넣기
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
@@ -48,7 +46,9 @@ dependencies {
     
     // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2
 	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.7.9'
-    
+	
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
 
 tasks.named('test') {

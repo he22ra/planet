@@ -1,26 +1,25 @@
-import logo from './logo.svg';
+/**
+ * 2023.05.19 
+ * https://dsc-sookmyung.tistory.com/36
+ */
+
+import React, { Component } from 'react';
+import Main from './page/main';
+import Write from './page/write';
 import './App.css';
-import React from 'react';
+import { Route } from 'react-router-dom';
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import logo from './logo.svg';
+
+class App extends Component {
+
+  render() {
+    return(
+      <div>
+          <Route exact path="/" component={Main} />
+          <Route path="/write" component={Write} />
+      </div>
+    )
+  }
 }
-
 export default App;
