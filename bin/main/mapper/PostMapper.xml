@@ -17,21 +17,20 @@
     </sql>
     
     <!-- 게시글 저장  -->
-    <insert id="save" parameterType="com.blog.main.post.PostRequest">
+    <insert id="save" parameterType="com.blog.main.post.PostRequest" 
+    				  useGeneratedKeys="true" keyProperty="id">	<!-- 생성된 PK(id)를 객체에 담아주기 -->
     	INSERT INTO tb_post(
-    		  title
-	        , contents
-	        , writer
-	        , view_cnt
-	        , notice_yn
-	        , delete_yn
+			<include refid="postColumns" />
     	) VALUES (
-    			#{title}
+    			DEFAULT
+    		,	#{title}
     		,	#{contents}
         	,	#{writer}
             , 	0
             , 	#{noticeYn}
             , 	0
+            , 	now()
+            ,	null
     	)
     </insert>
     
@@ -80,6 +79,16 @@
             delete_yn = 0
         ORDER BY
             id DESC
+    </select>
+    
+    <!-- 게시글 최근 작성글 조회 -->
+    <select id="findRecentlyPostId" resultType="long">
+        SELECT
+            id
+        FROM
+            tb_post
+        ORDER BY
+            created_date DESC limit 1
     </select>
     
     

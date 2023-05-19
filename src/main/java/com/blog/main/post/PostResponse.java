@@ -17,33 +17,4 @@ public class PostResponse {
 	private Date createdDate;				//생성 일시
 	private Date modifiedDate;				//최종 수정일시
 	
-	public Long getId() {
-		return id;
-	}
-	public String getTitle() {
-		return title;
-	}
-	public String getContents() {
-		return contents;
-	}
-	public String getWriter() {
-		return writer;
-	}
-	public int getViewCnt() {
-		return viewCnt;
-	}
-	public Boolean getNoticeYn() {
-		return noticeYn;
-	}
-	public Boolean getDeleteYn() {
-		return deleteYn;
-	}
-	public Date getCreatedDate() {
-		return createdDate;
-	}
-	public Date getModifiedDate() {
-		return modifiedDate;
-	}
-	
-	
 }

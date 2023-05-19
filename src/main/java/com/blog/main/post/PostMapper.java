@@ -38,6 +38,12 @@ public interface PostMapper {
 	List<PostResponse> findAll();
 	
 	/*
+	 * 최근 작성 게시글 조회
+	 * @return 게시글 정보
+	 */
+	Long findRecentlyPostId();
+	
+	/*
 	 * 게시글 수 카운팅
 	 * @return 게시글 수
 	 */

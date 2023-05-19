@@ -20,18 +20,20 @@ public class PostMapperTest {
 		PostMapper postMapper;
 		
 		// 게시물 작성 테스트
-//		@Test
-//		void save() {
-//			PostRequest params = new PostRequest();
-//			params.setTitle("5번 게시글 제목");
-//			params.setContents("5번 게시글 내용");
-//			params.setWriter("5테스터");
-//			params.setNoticeYn(0);
-//			postMapper.save(params);
-//			
+		@Test
+		void save() {
+			PostRequest params = new PostRequest();
+			params.setTitle("0519-4번 게시글 제목");
+			params.setContents("0519-4번 게시글 내용");
+			params.setWriter("0519-4테스터");
+			params.setNoticeYn(0);
+			postMapper.save(params);
+			
 //			List<PostResponse> posts = postMapper.findAll();
 //			System.out.println("전체 게시글 개수는 : " + posts.size() + "개입니다.");
-//		}
+			Long id = params.getId();
+			System.out.println("최근 게시글 id는 : " + id + "번입니다.");
+		}
 		
 		// 게시물 조회 테스트
 //		@Test
@@ -70,11 +72,24 @@ public class PostMapperTest {
 		
 		// 삭제 여부(delete_yn) 상태 값을 0(false)에서 1(true)로 UPDATE
 		// 추후에 게시글 리스트 페이지에는 delete_yn이 0(false)인 데이터만 사용자에게 노출
-	    @Test
-	    void delete() {
-	        System.out.println("삭제 이전의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
-	        postMapper.deleteById(1L);
-	        System.out.println("삭제 이후의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
-	    }
+//	    @Test
+//	    void delete() {
+//	        System.out.println("삭제 이전의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
+//	        postMapper.deleteById(1L);
+//	        System.out.println("삭제 이후의 전체 게시글 개수는 : " + postMapper.findAll().size() + "개입니다.");
+//	    }
+		
+		// 최근게시물 조회 테스트
+//		@Test
+//	    void findRecentlyPostId() {
+//			Long recentlyPost = postMapper.findRecentlyPostId();
+//	        try {
+//	            String postJson = new ObjectMapper().registerModule(new JavaTimeModule()).writeValueAsString(recentlyPost);
+//	            System.out.println(postJson);
+//
+//	        } catch (JsonProcessingException e) {
+//	            throw new RuntimeException(e);
+//	        }
+//	    }
 		
 }
