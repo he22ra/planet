@@ -1,22 +1,28 @@
 package com.blog.main.interceptor;
 
+import java.nio.file.AccessDeniedException;
+
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 import org.springframework.web.servlet.ModelAndView;
 
-import lombok.extern.slf4j.Slf4j;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
-@Slf4j
-public class LoggerInterceptor implements HandlerInterceptor{
+@Component
+public class LoggerInterceptor implements HandlerInterceptor{	
+	
+	// HandlerInterceptorAdapter 상속 실행안됨 -> HandlerInterceptor 구현으로 변경
+	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Override
-	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
+	public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception, AccessDeniedException {
 		
-		log.debug("===============================================");
-        log.debug("==================== BEGIN ====================");
-        log.debug("Request URI ===> " + request.getRequestURI());
+		log.info("======================================          START         ======================================");
+		log.info(" Request URL \t:  " + request.getRequestURL());
         
 		return HandlerInterceptor.super.preHandle(request, response, handler);
 		
@@ -24,10 +30,8 @@ public class LoggerInterceptor implements HandlerInterceptor{
 	@Override
 	public void postHandle(HttpServletRequest request, HttpServletResponse response, Object handler, ModelAndView modelAndView) throws Exception {
 		
-		log.debug("==================== END ======================");
-        log.debug("===============================================");
         HandlerInterceptor.super.postHandle(request, response, handler, modelAndView);
-		
+        log.info("======================================           END          ======================================\n");
 	}
 
 }
