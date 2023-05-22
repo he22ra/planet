@@ -15,7 +15,7 @@ import org.slf4j.LoggerFactory;
 @Component
 public class LoggerInterceptor implements HandlerInterceptor{	
 	
-	// HandlerInterceptorAdapter 상속 실행안됨 -> HandlerInterceptor 구현으로 변경
+	// LoggerAspect 클래스(Slf4j 어노테이션 사용)와 다른 방법.
 	private final Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Override

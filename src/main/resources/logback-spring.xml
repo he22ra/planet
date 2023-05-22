@@ -31,7 +31,7 @@
     <logger name="jdbc.connection" 		level="off" />		<!-- 커넥션 open close 이벤트 -->
     <logger name="jdbc.resultset" 		level="off"/>		<!-- ResultSet을 제외한 모든 JDBC 호출 정보 (권장X)-->
     <logger name="jdbc.resultsettable" 	level="debug" />	<!-- SQL 결과 조회된 데이터의 table -->
-    <logger name="com.uni.sellers" 		level="info"/>
+    <logger name="com.blog.main" 		level="debug" />	<!-- level="info"일때, LoggerAspect 출력안됨 -->
     <logger name="com.zaxxer.hikari" 	level="info"/>
     
 	<!-- Root Logger -->
