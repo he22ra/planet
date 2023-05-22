@@ -9,15 +9,16 @@ version = '0.0.1-SNAPSHOT'
 sourceCompatibility = '11'
 
 configurations {
-/*	compileOnly {
+	compileOnly {
 		extendsFrom annotationProcessor
 	}
 	all {
 		//logback과의 충돌 방지
 		exclude group: 'org.springframework.boot', module: 'spring-boot-starter-logging'
-		exclude group: 'ch.qos.logback', module: 'logback-classic'
-		exclude group: 'org.apache.logging.log4j', module: 'log4j-to-slf4j'
-	} */
+		/*exclude group: 'ch.qos.logback', module: 'logback-classic'
+		//slf4j과의 충돌 방지
+		exclude group: 'org.apache.logging.slf4j.Log4jLoggerFactory', module: 'log4j-to-slf4j'*/
+	}
 }
 
 repositories {
@@ -35,8 +36,9 @@ dependencies {
 	implementation 'org.mybatis.spring.boot:mybatis-spring-boot-starter:2.3.0'
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'	//jpa는 테이블 조인이 원활하지 않음
-	implementation 'org.springframework.boot:spring-boot-starter-log4j2' 
 	implementation 'org.bgee.log4jdbc-log4j2:log4jdbc-log4j2-jdbc4.1:1.16'  /* Log4JDBC */
+	// https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2
+	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.7.9'
 	
 	// https://mvnrepository.com/artifact/javax.transaction/javax.transaction-api
 	implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'	
@@ -46,10 +48,7 @@ dependencies {
 	// https://mvnrepository.com/artifact/org.postgresql/postgresql 코드 붙여넣기
     implementation group: 'org.postgresql', name: 'postgresql', version: '42.5.1'
     runtimeOnly 'org.postgresql:postgresql' // 추가
-    
-    // https://mvnrepository.com/artifact/org.springframework.boot/spring-boot-starter-log4j2
-	implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.7.9'
-	
+
     developmentOnly 'org.springframework.boot:spring-boot-devtools'
 	testImplementation 'org.springframework.boot:spring-boot-starter-test'
 }
