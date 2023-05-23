@@ -4,8 +4,10 @@ import java.util.List;
 
 import org.apache.ibatis.annotations.Mapper;
 
+import com.blog.main.common.dto.SearchDto;
+
 @Mapper
-public interface PostMapper {
+public interface PostDao {
 	/*
 	 * 게시글 저장
 	 * @Param params - 게시글 정보
@@ -35,18 +37,13 @@ public interface PostMapper {
 	 * 게시글 리스트 조회
 	 * @return 게시글 리스트
 	 */
-	List<PostResponse> findAll();
-	
-	/*
-	 * 최근 작성 게시글 조회
-	 * @return 게시글 정보
-	 */
-	Long findRecentlyPostId();
+	List<PostResponse> findAll(SearchDto params);
+
 	
 	/*
 	 * 게시글 수 카운팅
 	 * @return 게시글 수
 	 */
-	int count();
+	int count(SearchDto params);
 	
 }

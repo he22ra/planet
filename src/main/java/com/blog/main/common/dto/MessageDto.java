@@ -1,4 +1,4 @@
-package com.blog.main.post;
+package com.blog.main.common.dto;
 
 import java.util.Map;
 
