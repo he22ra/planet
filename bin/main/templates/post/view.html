@@ -62,6 +62,36 @@
 			    </div>
             </section>
         </div> <!--/* .content */-->
+        
+        <!--/* 댓글 수정 popup */-->
+	    <div id="commentUpdatePopup" class="modal fade" tabindex="-1" aria-labelledby="commentUpdatePopupLabel" aria-hidden="true">
+		  <div class="modal-dialog">
+		    <div class="modal-content">
+		      <div class="modal-header">
+		        <h1 class="modal-title fs-5" id="commentUpdatePopupLabel">댓글 수정</h1>
+		        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+		      </div>
+		      <div class="modal-body">
+		        <form>
+		          <div class="mb-3">
+		            <label for="recipient-name" class="col-form-label">작성자 <span class="es">필수 입력</span></label>
+		            <input type="text" id="modalWriter" name="modalWriter" placeholder="작성자를 입력해 주세요." class="form-control">
+		          </div>
+		          <div class="mb-3">
+		            <label for="message-text" class="col-form-label">내용 <span class="es">필수 입력</span></label>
+		            <textarea id="modalContent" name="modalContent" cols="90" rows="10" placeholder="수정할 내용을 입력해 주세요." class="form-control"></textarea>
+		          </div>
+		        </form>
+		      </div>
+		      <div class="modal-footer">
+              	<button type="button" id="commentUpdateBtn" class="btn btn-outline-primary">수정</button>
+              	<button type="button" class="btn btn-outline-secondary" data-bs-dismiss="modal" aria-label="Close">취소</button>
+		      </div>
+		    </div>
+		  </div>
+			  
+	    </div><!--/* 댓글 수정 popup END */-->
+	    
     </th:block>
     
     <th:block layout:fragment="script">
@@ -185,7 +215,7 @@
 	                        		<p class="form-control">${row.contents}</p>
 	                        		
 	                                <p class="btn-group mb-3" role="group" aria-label="commentBtnGroup">
-	                                    <button type="button" class="btn btn-outline-secondary btn-sm">수정</button>
+	                                    <button type="button" class="btn btn-outline-secondary btn-sm" data-bs-toggle="modal" data-bs-target="#commentUpdatePopup">수정</button>
 	                                    <button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
 	                                </p>
 	                            </div>
@@ -201,6 +231,35 @@
                         console.log(error)
                     }
                 })
+            }
+         	
+            // 댓글 수정 팝업 open
+            function openCommentUpdatePopup(id) {
+
+                const postId = [[ ${post.id} ]];
+
+                $.ajax({
+                    url : `/post/${postId}/comments/${id}`,
+                    type : 'get',
+                    dataType : 'json',
+                    async : false,
+                    success : function (response) {
+                        document.getElementById('modalWriter').value = response.writer;
+                        document.getElementById('modalContent').value = response.contents;
+                        document.getElementById('commentUpdateBtn').setAttribute('onclick', `updateComment(${id})`);
+                        layerPop('commentUpdatePopup');
+                    },
+                    error : function (request, status, error) {
+                        console.log(error)
+                    }
+                })
+            }
+
+            // 댓글 수정 팝업 close
+            function closeCommentUpdatePopup() {
+                document.querySelectorAll('#modalContent, #modalWriter').forEach(element => element.value = '');
+                document.getElementById('commentUpdateBtn').removeAttribute('onclick');
+                layerPopClose('commentUpdatePopup');
             }
         /*]]>*/
         </script>
