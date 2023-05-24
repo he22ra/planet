@@ -147,6 +147,9 @@
                     async : false,
                     success : function (response) {
                         console.log(response);
+                        contents.value = '';
+                        document.getElementById('counter').innerText = '0/300자';
+                        findAllComment();
                     },
                     error : function (request, status, error) {
                         console.log(error)
