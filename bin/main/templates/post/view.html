@@ -22,7 +22,7 @@
                             <td th:text="${post.noticeYn == 0 ? '일반' : '공지'}"></td>
     
                             <th scope="row">등록일</th>
-                            <td id="createdDate" th:text="${post.createdDate}"></td>
+                            <td id="createdDate">[[ ${post.createdDate} ]]</td>
                         </tr>
                         <tr>
                             <th scope="row">제목</th>
@@ -46,6 +46,20 @@
                 	<button type="button" onclick="deletePost();" class="btn btn-outline-primary">삭제</button>
                 	<button type="button" onclick="goListPage();" class="btn btn-outline-primary">목록</button>
                 </p>
+                
+                <!--/* 댓글 작성 */-->
+			     <div class="input-group">
+			        <fieldset>
+			            <div class="form-floating">
+			                <textarea id="contents" name="contents" onkeyup="countingLength(this);" cols="90" rows="4" class="form-control" placeholder="Comment" aria-label="Comment"></textarea>
+			            	<label for="contents">Comments</label>
+			            </div>
+			                <span class="input-group mb-3"><i id="counter" class="form-control">0/300자</i><button type="button" class="btn btn-outline-secondary" onclick="saveComment();">등 록</button></span>
+			        </fieldset>
+			    </div>
+			    <!--/* 댓글 렌더링 영역 */-->
+			    <div class="mb-3" id="commentList">
+			    </div>
             </section>
         </div> <!--/* .content */-->
     </th:block>
@@ -56,11 +70,12 @@
 
             window.onload = () => {
                 initCreatedDate();
+                findAllComment();
             }
 
             // 등록일 초기화
             function initCreatedDate() {
-                document.getElementById('createdDate').value = dayjs().format('YYYY-MM-DD');
+                document.getElementById('createdDate').innerHTML = dayjs().format('YYYY-MM-DD HH:mm:ss');
             }
          	// 게시글 수정
             function goWritePage() {
@@ -97,6 +112,92 @@
                 const form = doc.body.firstChild;
                 document.body.append(form);
                 document.getElementById('deleteForm').submit();
+            }
+            
+            /* ======= 댓글 영역 ======= */
+            // 댓글 길이 카운팅 (제한)
+            function countingLength(contents) {
+            	if (contents.value.length > 300){
+            		alert('300자 이하로 입력해주세요.');
+            		contents.value = contents.value.substring(0, 300);
+            		contents.focus();
+            	}
+            	document.getElementById('counter').innerText = contents.value.length + '/300자';
+            }
+            
+            // 댓글 저장
+            function saveComment(){
+            	
+            	const contents = document.getElementById('contents');
+            	//isValid(contents, '댓글');
+            	
+            	const postId = [[ ${post.id} ]];
+            	const params = {
+            			postId : postId,
+                        contents : contents.value,
+                        writer : '홍길동'
+            	}
+            	
+            	$.ajax({
+                    url : `/post/${postId}/comments`,
+                    type : 'post',
+                    contentType : 'application/json; charset=utf-8',
+                    dataType : 'json',
+                    data : JSON.stringify(params),
+                    async : false,
+                    success : function (response) {
+                        console.log(response);
+                    },
+                    error : function (request, status, error) {
+                        console.log(error)
+                    }
+                })
+            }
+            
+         	// 전체 댓글 조회
+            function findAllComment() {
+
+                const postId = [[ ${post.id} ]];
+
+                $.ajax({
+                    url : `/post/${postId}/comments`,
+                    type : 'get',
+                    dataType : 'json',
+                    async : false,
+                    success : function (response) {
+                        console.log(response);
+                        
+                        // 1. 조회된 데이터가 없는 경우
+                        if (!response.length){
+                        	document.querySelector('#commentList').innerHTML = '<div class="cm_none"><p>등록된 댓글이 없습니다.</p></div>';
+                        	 return false;
+                        }
+                        // 2. 댓글 HTML 추가
+                        let commentHtml = '';
+                        
+                        response.forEach(row => {
+                        	commentHtml += `
+                        		<div class="mb-3 border-bottom">
+	                        		<label for="commentWriter" class="form-label">${row.writer}  <span class="text-muted">${dayjs(row.createdDate).format('YYYY-MM-DD HH:mm')}</span></label>
+	                        		<p class="form-control">${row.contents}</p>
+	                        		
+	                                <p class="btn-group mb-3" role="group" aria-label="commentBtnGroup">
+	                                    <button type="button" class="btn btn-outline-secondary btn-sm">수정</button>
+	                                    <button type="button" class="btn btn-outline-secondary btn-sm">삭제</button>
+	                                </p>
+	                            </div>
+                                
+                        	`;
+                        })
+                        
+                        // 3. class가 "cm_list"인 요소를 찾아 HTML을 렌더링
+                        document.querySelector('#commentList').innerHTML = commentHtml;
+                        
+                    },
+                    error : function (request, status, error) {
+                        console.log(error)
+                    }
+                })
             }
         /*]]>*/
         </script>
