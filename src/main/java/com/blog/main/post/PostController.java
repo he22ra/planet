@@ -1,4 +1,4 @@
-package com.blog.main;
+package com.blog.main.post;
 
 import java.util.HashMap;
 import java.util.List;
@@ -15,8 +15,6 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.blog.main.common.dto.MessageDto;
 import com.blog.main.common.dto.SearchDto;
 import com.blog.main.common.paging.PagingResponse;
-import com.blog.main.post.PostRequest;
-import com.blog.main.post.PostResponse;
 import com.blog.main.service.PostService;
 
 import lombok.RequiredArgsConstructor;

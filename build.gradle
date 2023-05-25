@@ -40,6 +40,11 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-data-jdbc'
 //	implementation 'org.springframework.boot:spring-boot-starter-data-jpa'	//jpa는 테이블 조인이 원활하지 않음
 	
+	implementation 'org.springframework.boot:spring-boot-starter-mustache'
+	implementation 'org.springframework.boot:spring-boot-starter-security'
+	testImplementation 'org.springframework.boot:spring-boot-starter-test'
+	testImplementation 'org.springframework.security:spring-security-test'
+	
 	// implementation group: 'org.springframework.boot', name: 'spring-boot-starter-log4j2', version: '2.7.9'	//추가하면 log 옵션이 다 출력(jdbc.audit..)
 	//AOP AspectJ
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
