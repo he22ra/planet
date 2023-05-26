@@ -1,23 +1,25 @@
 package com.blog.main;
 
-import java.util.List;
-
 import org.junit.jupiter.api.Test;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.test.context.SpringBootTest;
 
 import com.blog.main.post.PostDao;
-import com.blog.main.post.PostRequest;
-import com.blog.main.post.PostResponse;
-import com.fasterxml.jackson.core.JsonProcessingException;
-import com.fasterxml.jackson.databind.ObjectMapper;
-import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
+import com.blog.main.service.UserService;
+import com.blog.main.user.UserDao;
+import com.blog.main.user.UserRequest;
 
 @SpringBootTest
 public class PostMapperTest {
 
 		@Autowired
 		PostDao postDao;
+		
+		@Autowired
+		UserDao userDao;
+		
+		@Autowired
+		UserService userService;
 		
 		// 게시물 작성 테스트
 //		@Test
