@@ -13,7 +13,7 @@ import lombok.extern.slf4j.Slf4j;
 @Component	//스프링 컨테이너에 빈(Bean)으로 등록
 public class LoggerAspect {
 	
-	@Around("execution(* com.blog.main.controller..*Controller.*(..)) || execution(* com.blog.main.service..*Service.*(..)) || execution(* resources.mapper..*Mapper.*(..))")
+	@Around("execution(* com.blog.main.controller..*Controller.*(..)) || execution(* com.blog.main.service..*Service.*(..)) || execution(* main.resources.mapper..*Mapper.*(..))")
 	public Object printLog(ProceedingJoinPoint joinPoint) throws Throwable{
 		String name = joinPoint.getSignature().getDeclaringTypeName();
 		String type =

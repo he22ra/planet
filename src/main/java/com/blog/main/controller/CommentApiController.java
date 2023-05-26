@@ -1,4 +1,4 @@
-package com.blog.main.comment;
+package com.blog.main.controller;
 
 import java.util.List;
 
@@ -10,6 +10,8 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.blog.main.comment.CommentRequest;
+import com.blog.main.comment.CommentResponse;
 import com.blog.main.service.CommentService;
 
 import lombok.RequiredArgsConstructor;

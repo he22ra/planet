@@ -48,15 +48,15 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		 * authenticated : 인증 필요
 		*/
 		// 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
-        http.csrf().ignoringAntMatchers("/user/**");
+        //http.csrf().ignoringAntMatchers("/user/**");
         
 		http
 		.csrf().disable()	//csrf : 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
 		.authorizeRequests()
-		.antMatchers("/user/**").permitAll()
-//		.antMatchers("/manager/**").authenticated()
-//		.antMatchers("/admin/**").authenticated()
-		.anyRequest().authenticated()
+		.antMatchers("/user/**").authenticated()
+		.antMatchers("/manager/**").authenticated()
+		.antMatchers("/admin/**").authenticated()
+		.anyRequest().permitAll()
 		.and()
 		.formLogin()	// 로그인 기능 허용
 		.loginPage("/user/login")	//로그인 View 제공(GET/user/login)  //로그인 할 때 longin.html 페이지로
