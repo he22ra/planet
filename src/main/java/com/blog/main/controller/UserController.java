@@ -1,11 +1,12 @@
 package com.blog.main.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.ResponseBody;
 
 import com.blog.main.common.dto.MessageDto;
@@ -18,15 +19,34 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor	// 클래스 내에 final로 선언된 모든 멤버에 대한 생성자를 만들어주는 역할
 public class UserController {
-
+	
+	@Autowired
 	private final UserService userService;
+	
+	@Autowired
+	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	// 로그인 페이지
 	@GetMapping("/login.do")
-	public String login() {
+	public String loginForm() {
 		System.out.println("UserController enter :: 로그인 페이지");
         return "user/login";
     }
+	// 로그인 페이지
+	@PostMapping("/login")
+	public @ResponseBody String login(@RequestBody UserRequest params) {
+		System.out.println("UserController enter :: 로그인");
+		String userId = params.getUser_id();
+		userService.findByUserId(userId);
+		return "/home";
+	}
+	
+	// 로그인 확인 페이지
+	@GetMapping("/user/setting")
+	public String setting() {
+		System.out.println("UserController enter :: 로그인 완료 페이지");
+		return "로그인완료";
+	}
 	
 	// 로그아웃
 	@GetMapping("/user/logout")	
@@ -42,10 +62,13 @@ public class UserController {
 		return "user/signup";
 	}
 	
-	// 회원가입 완료
+	// 회원가입 save
 	@PostMapping("/signup")	
 	public @ResponseBody UserResponse signup(@RequestBody final UserRequest params) {
 		System.out.println("UserController enter");
+		String rawPassword = params.getUser_pwd();
+		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
+		params.setUser_pwd(encPassword);
 		int id = userService.saveUser(params);
 	    return userService.findByUserNo(id);
 	}

@@ -9,6 +9,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.EnableWebSecurity;
 import org.springframework.security.config.http.SessionCreationPolicy;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.access.AccessDeniedHandler;
@@ -17,7 +18,12 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 @EnableWebSecurity	// 스프링 시큐리티 필터가 스프링 필터체인에 등록. Security 지원 가능
 public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated 됨*/ {
 	private final Logger log = LoggerFactory.getLogger(getClass());
-
+	
+	// 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
+	@Bean
+	public BCryptPasswordEncoder encodePwd() {
+		return new BCryptPasswordEncoder();
+	}
 	
 	@Bean
 	public AccessDeniedHandler accessDeniedHandler() {
@@ -59,7 +65,10 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		.anyRequest().permitAll()
 		.and()
 		.formLogin()	// 로그인 기능 허용
-		.loginPage("/user/login")	//로그인 View 제공(GET/user/login)  //로그인 할 때 longin.html 페이지로
+		.loginPage("/login.do")	//로그인 View 제공(GET/user/login)  //로그인 할 때 longin.html 페이지로
+//		.usernameParameter("userid")
+		.loginProcessingUrl("/login") // 시큐리티가 낚아채서 대신 로그인을 진행
+		.defaultSuccessUrl("/")
 		.and()
 		.headers()
 		.disable()

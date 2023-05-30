@@ -17,5 +17,12 @@ public interface UserDao {
      * @return 회원 상세정보
      */
 	UserResponse findByUserNo(int id);
+	
+	/**
+	 * 회원 상세정보 조회, Security 적용
+	 * @param userid - unique
+	 * @return 회원 상세정보
+	 */
+	UserResponse findByUserId(String userid);
 
 }

@@ -38,5 +38,14 @@ public class UserService {
 	public UserResponse findByUserNo(final int id) {
 		return userDao.findByUserNo(id);
 	}
+	
+	/**
+	 * 회원 상세정보 조회, Security 적용
+	 * @param userid - unique
+	 * @return 회원 상세정보
+	 */ 
+	public UserResponse findByUserId(final String userId) {
+		return userDao.findByUserId(userId);
+	}
 
 }

@@ -268,10 +268,10 @@
 		              </div>
 		            </div>
 		          <!-- 회원가입 완료 버튼 -->
-		          <input type="button" class="w-100 btn btn-primary btn-lg mt-4" id="signUp" value="회원가입"><!--  -->
+		          <input type="button" class="w-100 btn btn-primary btn-lg mt-4" id="signUp" value="회원가입" data-bs-toggle="modal"><!--  -->
 		          </form>
 		          <!-- 회원가입 완료 모달창 -->
-		          <div class="modal fade" id="signUpCompleteModal" tabindex="-1" aria-labelledby="signUpCompleteModalLabel" aria-hidden="true"><!--  모달실행 -->
+		          <div class="modal fade" id="signUpCompleteModal" tabindex="-1" aria-labelledby="signUpCompleteModalLabel"><!--  모달실행 -->
 		            <div class="modal-dialog">
 		              <div class="modal-content">
 		                <div class="modal-header">
@@ -503,7 +503,7 @@
     				}else{
     					const params = {
     							user_id : user_id.value,
-    							user_pwd : '123456',
+    							user_pwd : user_pwd.value,
     							user_name : user_name.value,
     							user_nickname : user_nickname.value,
     							user_phone : user_phone.value
@@ -512,7 +512,7 @@
     							agree_inform : $('#agree3').is(":checked"),
     							agree_inform_third : $('#agree4').is(":checked"),
     							agree_marketing : $('#agree5').is(":checked") */
-    					} 
+    					}
     					console.log(params)
     					var header = $("meta[name='_csrf_header']").attr('content');
     					var token = $("meta[name='_csrf']").attr('content');
@@ -529,9 +529,10 @@
     					    }, */
     					    async : false,
     						success:function(response){
-    							console.log(response);
-    							$('#signUpCompleteModal').modal({backdrop: 'static', keyboard: false});
-    							$("#signUpCompleteModal").modal("show");
+    							$('#signUpCompleteModal').modal('show');
+    							console.log("data",data);
+    							alert("회원가입완료.");
+    							/* $('#signUpCompleteModal').modal({backdrop: 'static', keyboard: false}); */
     						},
     						error : function (request, status, error) {
     	                        console.log(error)

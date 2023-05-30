@@ -43,4 +43,14 @@
         WHERE
             user_no = #{value}
     </select>
+    
+    <!-- 회원 상세정보 조회 -->
+	<select id="findByUserId" parameterType="String" resultType="com.blog.main.user.UserResponse">
+        SELECT
+            <include refid="userColumns" />
+        FROM
+            tb_user
+        WHERE
+            user_id = #{value}
+    </select>
 </mapper>

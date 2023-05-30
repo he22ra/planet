@@ -1,10 +1,14 @@
 package com.blog.main.user;
 
 import lombok.AccessLevel;
+import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 @Getter
+@Setter
+@Data
 @NoArgsConstructor(access = AccessLevel.PROTECTED)
 /* 클래스의 기본 생성자 생성
  * access = 객체 생성 레벨 제한
