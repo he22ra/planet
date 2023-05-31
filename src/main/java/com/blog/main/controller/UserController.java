@@ -32,7 +32,7 @@ public class UserController {
 		System.out.println("UserController enter :: 로그인 페이지");
         return "user/login";
     }
-	// 로그인 페이지
+	// 로그인 기능
 	@PostMapping("/login")
 	public @ResponseBody String login(@RequestBody UserRequest params) {
 		System.out.println("UserController enter :: 로그인");
@@ -45,7 +45,7 @@ public class UserController {
 	@GetMapping("/user/setting")
 	public String setting() {
 		System.out.println("UserController enter :: 로그인 완료 페이지");
-		return "로그인완료";
+		return "post/test";
 	}
 	
 	// 로그아웃

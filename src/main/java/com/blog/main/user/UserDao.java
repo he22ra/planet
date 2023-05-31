@@ -23,6 +23,6 @@ public interface UserDao {
 	 * @param userid - unique
 	 * @return 회원 상세정보
 	 */
-	UserResponse findByUserId(String userid);
+	public UserResponse findByUserId(String userId);
 
 }

@@ -59,16 +59,18 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		http
 		.csrf().disable()	//csrf : 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
 		.authorizeRequests()
-		.antMatchers("/user/**").authenticated()
-		.antMatchers("/manager/**").authenticated()
-		.antMatchers("/admin/**").authenticated()
+		.antMatchers("/user/**").permitAll()
+		.antMatchers("/manager/**").access("hasRole('1') or hasRole('2')")
+		.antMatchers("/admin/**").hasRole("2")
 		.anyRequest().permitAll()
 		.and()
 		.formLogin()	// 로그인 기능 허용
 		.loginPage("/login.do")	//로그인 View 제공(GET/user/login)  //로그인 할 때 longin.html 페이지로
-//		.usernameParameter("userid")
-		.loginProcessingUrl("/login") // 시큐리티가 낚아채서 대신 로그인을 진행
-		.defaultSuccessUrl("/")
+		.usernameParameter("userId") // 아이디 파라미터명 설정, default: username // Id input의 name과 동일하게
+        .passwordParameter("userPassword") // 패스워드 파라미터명 설정, default: password // Password input의 name과 동일하게
+		.loginProcessingUrl("/login") // 시큐리티가 낚아채서 대신 로그인을 진행 // 로그인의 Form Action과 동일하게
+		.defaultSuccessUrl("/home") // 로그인 성공 후 이동 페이지
+		.failureUrl("/login.do") // 로그인 실패 후 이동 페이지
 		.and()
 		.headers()
 		.disable()
