@@ -1,5 +1,10 @@
 package com.blog.main.controller;
 
+import java.util.HashMap;
+import java.util.Map;
+
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
@@ -19,6 +24,7 @@ import lombok.RequiredArgsConstructor;
 @Controller
 @RequiredArgsConstructor	// 클래스 내에 final로 선언된 모든 멤버에 대한 생성자를 만들어주는 역할
 public class UserController {
+	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
 	private final UserService userService;
@@ -34,18 +40,48 @@ public class UserController {
     }
 	// 로그인 기능
 	@PostMapping("/login")
-	public @ResponseBody String login(@RequestBody UserRequest params) {
+	public @ResponseBody Map<String, Object> loginProccess(@RequestBody UserRequest params) {
 		System.out.println("UserController enter :: 로그인");
+		Map<String, Object> result = new HashMap<>();
+		
+		// 사용자 정보 조회
 		String userId = params.getUser_id();
-		userService.findByUserId(userId);
-		return "/home";
+		UserResponse userInfo = userService.findByUserId(userId);
+		
+		if(userInfo != null) {
+			log.info("==입력정보 START==");
+	        log.info("MEMBER_ID_NUM : " +userInfo.getUser_id());
+	        log.info("==입력정보 END==");
+	        
+	        if(bCryptPasswordEncoder.matches(params.getUser_pwd(), userInfo.getUser_pwd())){
+	        	if(userInfo.getUser_activate() == 1) {
+	        		try {
+	        			result.put("result", "Y");
+					} catch (Exception e) {
+						result.put("result", "NOAUTH"); // 권한 없음
+					}
+	        	}else if(userInfo.getUser_activate() == 0) {
+	        		result.put("result", "UNUSE"); // 탈퇴유저
+	        	}else {
+	        		result.put("result", "N");
+	        	}
+	        }else {
+	        	log.info("passward ");
+        		result.put("result", "N");
+        	}
+		}else {
+        	result.put("result", "N");
+        }
+        log.info("result :: " + result);
+		
+		return result;
 	}
 	
 	// 로그인 확인 페이지
-	@GetMapping("/user/setting")
-	public String setting() {
-		System.out.println("UserController enter :: 로그인 완료 페이지");
-		return "post/test";
+	@GetMapping("/user/info")
+	public @ResponseBody String infoPage() {
+		System.out.println("UserController enter :: 회원정보 페이지");
+		return "회원정보조회";
 	}
 	
 	// 로그아웃

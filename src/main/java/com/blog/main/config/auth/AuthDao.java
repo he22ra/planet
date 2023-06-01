@@ -17,9 +17,10 @@ import com.blog.main.user.UserResponse;
 
 // Security Session => Authentication => UserDetails(AutDao)
 
-
+@SuppressWarnings("serial")
 public class AuthDao implements UserDetails{
 	
+	@Autowired
 	private UserResponse userResponse; // composition
 	
 	public AuthDao(UserResponse user) {
@@ -48,7 +49,7 @@ public class AuthDao implements UserDetails{
 
 	@Override
 	public String getUsername() {
-		return userResponse.getUser_name();
+		return userResponse.getUser_id();
 	}
 
 	@Override

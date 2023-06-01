@@ -21,7 +21,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 	
 	// 해당 메서드의 리턴되는 오브젝트를 IoC로 등록해준다.
 	@Bean
-	public BCryptPasswordEncoder encodePwd() {
+	public BCryptPasswordEncoder bCryptPasswordEncoder() {
 		return new BCryptPasswordEncoder();
 	}
 	
@@ -59,7 +59,7 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		http
 		.csrf().disable()	//csrf : 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
 		.authorizeRequests()
-		.antMatchers("/user/**").permitAll()
+		.antMatchers("/user/**").authenticated()
 		.antMatchers("/manager/**").access("hasRole('1') or hasRole('2')")
 		.antMatchers("/admin/**").hasRole("2")
 		.anyRequest().permitAll()
@@ -72,14 +72,12 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		.defaultSuccessUrl("/home") // 로그인 성공 후 이동 페이지
 		.failureUrl("/login.do") // 로그인 실패 후 이동 페이지
 		.and()
-		.headers()
-		.disable()
-		.httpBasic()
-		.disable()
+//		.headers().disable()
+		.httpBasic().disable()
 //		.rememberMe()
 //		.disable()
-//		.logout()
-//		.disable()
+		.logout()
+		.disable()
 		.sessionManagement()
 		.sessionCreationPolicy(SessionCreationPolicy.STATELESS)
 		.and()

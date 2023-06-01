@@ -1,7 +1,5 @@
 package com.blog.main.config.auth;
 
-import javax.annotation.Resource;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -22,15 +20,19 @@ public class AuthService implements UserDetailsService{
 	@Autowired
 	private UserDao userDao;
 	
+	private UserResponse userResponse;
+	
 	//시큐리티 session(내부 Authentication(내부 UserDetails))
+	@SuppressWarnings("unused")
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		System.out.println("user id : " + userId);
-		UserResponse userResponse = userDao.findByUserId(userId);
-		if(userResponse != null) {
-			return new AuthDao(userResponse);
+		UserResponse user = userDao.findByUserId(userId);
+		log.info(user.toString());
+		if(user == null) {
+			throw new UsernameNotFoundException(userId);
 		}
-		return null;
+		return (UserDetails) user;
 	}
 	
 	
