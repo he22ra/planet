@@ -8,6 +8,7 @@ import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 
+import com.blog.main.service.UserService;
 import com.blog.main.user.UserDao;
 import com.blog.main.user.UserResponse;
 
@@ -18,17 +19,16 @@ public class AuthService implements UserDetailsService{
 	Logger log = LoggerFactory.getLogger(this.getClass());
 	
 	@Autowired
-	private UserDao userDao;
-	
-	private UserResponse userResponse;
+	private UserService userService;
 	
 	//시큐리티 session(내부 Authentication(내부 UserDetails))
 	@SuppressWarnings("unused")
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		System.out.println("user id : " + userId);
-		UserResponse user = userDao.findByUserId(userId);
-		log.info(user.toString());
+		log.info(userService.findByUserId(userId).toString());
+		UserResponse user = userService.findByUserId(userId);
+		
 		if(user == null) {
 			throw new UsernameNotFoundException(userId);
 		}

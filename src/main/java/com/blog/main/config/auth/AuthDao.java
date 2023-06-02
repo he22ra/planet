@@ -35,7 +35,7 @@ public class AuthDao implements UserDetails{
 			
 			@Override
 			public String getAuthority() {
-				String userRole = String.valueOf(userResponse.getUser_role());
+				String userRole = String.valueOf(userResponse.getUserRole());
 				return userRole;
 			}
 		});
@@ -44,12 +44,12 @@ public class AuthDao implements UserDetails{
 
 	@Override
 	public String getPassword() {
-		return userResponse.getUser_pwd();
+		return userResponse.getUserPwd();
 	}
 
 	@Override
 	public String getUsername() {
-		return userResponse.getUser_id();
+		return userResponse.getUserId();
 	}
 
 	@Override

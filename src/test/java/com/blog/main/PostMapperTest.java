@@ -7,7 +7,10 @@ import org.springframework.boot.test.context.SpringBootTest;
 import com.blog.main.post.PostDao;
 import com.blog.main.service.UserService;
 import com.blog.main.user.UserDao;
-import com.blog.main.user.UserRequest;
+import com.blog.main.user.UserResponse;
+import com.fasterxml.jackson.core.JsonProcessingException;
+import com.fasterxml.jackson.databind.ObjectMapper;
+import com.fasterxml.jackson.datatype.jsr310.JavaTimeModule;
 
 @SpringBootTest
 public class PostMapperTest {
@@ -93,5 +96,14 @@ public class PostMapperTest {
 //	            throw new RuntimeException(e);
 //	        }
 //	    }
+		
+		// 회원정보 조회 테스트
+		@Test
+	    void findById() {
+			String userId = "user7@gmail.com";
+			 UserResponse user =  userService.findByUserId(userId);
+			 System.out.println(user.toString());
+			
+	    }
 		
 }

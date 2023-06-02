@@ -25,9 +25,9 @@ public class UserService {
      */
 	 @Transactional
     public int saveUser(final UserRequest params) {
-		System.out.println(params.getUser_id());
+		System.out.println(params.getUserId());
 		userDao.save(params);
-		return params.getUser_no();
+		return params.getUserNo();
     }
 	
 	 /**

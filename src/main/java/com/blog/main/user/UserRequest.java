@@ -16,11 +16,11 @@ import lombok.Setter;
 */
 public class UserRequest {
 	
-	private int user_no;
-	private String user_id;
-	private String user_pwd;
-	private String user_name;
-	private String user_nickname;
-	private String user_phone;
+	private int userNo;
+	private String userId;
+	private String userPwd;
+	private String userName;
+	private String userNickname;
+	private String userPhone;
 	
 }

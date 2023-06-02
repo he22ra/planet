@@ -45,22 +45,22 @@ public class UserController {
 		Map<String, Object> result = new HashMap<>();
 		
 		// 사용자 정보 조회
-		String userId = params.getUser_id();
+		String userId = params.getUserId();
 		UserResponse userInfo = userService.findByUserId(userId);
 		
 		if(userInfo != null) {
 			log.info("==입력정보 START==");
-	        log.info("MEMBER_ID_NUM : " +userInfo.getUser_id());
+	        log.info("MEMBER_ID_NUM : " +userInfo.getUserId());
 	        log.info("==입력정보 END==");
 	        
-	        if(bCryptPasswordEncoder.matches(params.getUser_pwd(), userInfo.getUser_pwd())){
-	        	if(userInfo.getUser_activate() == 1) {
+	        if(bCryptPasswordEncoder.matches(params.getUserPwd(), userInfo.getUserPwd())){
+	        	if(userInfo.getUserActivate() == 1) {
 	        		try {
 	        			result.put("result", "Y");
 					} catch (Exception e) {
 						result.put("result", "NOAUTH"); // 권한 없음
 					}
-	        	}else if(userInfo.getUser_activate() == 0) {
+	        	}else if(userInfo.getUserActivate() == 0) {
 	        		result.put("result", "UNUSE"); // 탈퇴유저
 	        	}else {
 	        		result.put("result", "N");
@@ -102,9 +102,9 @@ public class UserController {
 	@PostMapping("/signup")	
 	public @ResponseBody UserResponse signup(@RequestBody final UserRequest params) {
 		System.out.println("UserController enter");
-		String rawPassword = params.getUser_pwd();
+		String rawPassword = params.getUserPwd();
 		String encPassword = bCryptPasswordEncoder.encode(rawPassword);
-		params.setUser_pwd(encPassword);
+		params.setUserPwd(encPassword);
 		int id = userService.saveUser(params);
 	    return userService.findByUserNo(id);
 	}
