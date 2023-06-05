@@ -79,8 +79,14 @@ public class UserController {
 	
 	// 로그인 확인 페이지
 	@GetMapping("/user/info")
-	public @ResponseBody String infoPage() {
+	public @ResponseBody String infoPage(@RequestBody UserRequest params) {
 		System.out.println("UserController enter :: 회원정보 페이지");
+		// 사용자 정보 조회
+		String userId = params.getUserId();
+		UserResponse userInfo = userService.findByUserId(userId);
+		
+		log.info("MEMBER_ID_NUM : " +userInfo.getUserId());
+				
 		return "회원정보조회";
 	}
 	

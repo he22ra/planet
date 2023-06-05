@@ -22,17 +22,15 @@ public class AuthService implements UserDetailsService{
 	private UserService userService;
 	
 	//시큐리티 session(내부 Authentication(내부 UserDetails))
-	@SuppressWarnings("unused")
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		System.out.println("user id : " + userId);
-		log.info(userService.findByUserId(userId).toString());
 		UserResponse user = userService.findByUserId(userId);
 		
-		if(user == null) {
-			throw new UsernameNotFoundException(userId);
+		if(user != null) {
+			return new AuthDao(user);
 		}
-		return (UserDetails) user;
+		return null;
 	}
 	
 	
