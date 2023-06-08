@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+    <th:block layout:fragment="title">
+        <title>HOME</title>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <div class="page_tits">
+            <h3>home</h3>
+            <p class="path"><strong>현재 위치 :</strong> <span>home</span> </p>
+        </div>
+
+        <div class="content">
+			<!--USER 역할을 갖는다면 이 글이 보임-->
+			<h3 sec:authorize="hasRole('0')">Has USER Role</h3>
+		 
+			<!--MANAGER 역할을 갖는다면 이 글이 보임-->
+			<h3 sec:authorize="hasRole('1')">Has MANAGER Role</h3>
+		 
+			<!--ADMIN 역할을 갖는다면 이 글이 보임-->
+			<h3 sec:authorize="hasRole('2')">Has ADMIN Role</h3>
+		 
+			<!--어떤 역할이건 상관없이 인증이 되었다면 이 글이 보임-->
+			<h3 sec:authorize="isAuthenticated()">Only Authenticated user can see this Text</h3>
+		</div>
+    </th:block>
+</html>

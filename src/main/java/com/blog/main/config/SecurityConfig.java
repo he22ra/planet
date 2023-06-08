@@ -52,10 +52,9 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 	public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 		/* permitAll : login 없이 허용
 		 * authenticated : 인증 필요
-		*/
-		// 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
-        //http.csrf().ignoringAntMatchers("/user/**");
-        
+		 * 회원 관리 처리 API (POST /user/**) 에 대해 CSRF 무시
+         * http.csrf().ignoringAntMatchers("/user/**");
+         */
 		http
 		.csrf().disable()	//csrf : 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
 		.authorizeRequests()

@@ -25,10 +25,10 @@ public class AuthService implements UserDetailsService{
 	@Override
 	public UserDetails loadUserByUsername(String userId) throws UsernameNotFoundException {
 		System.out.println("user id : " + userId);
-		UserResponse user = userService.findByUserId(userId);
+		UserResponse userEntity = userService.findByUserId(userId);
 		
-		if(user != null) {
-			return new AuthDao(user);
+		if(userEntity != null) {
+			return new AuthDao(userEntity);
 		}
 		return null;
 	}

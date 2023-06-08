@@ -6,6 +6,7 @@ import java.util.Map;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -116,6 +117,7 @@ public class UserController {
 	}
 	
 	// 관리자 - Manager
+	@Secured("1")
 	@GetMapping("/manager")	
 	public String manager() {
 		System.out.println("UserController enter");
@@ -123,6 +125,7 @@ public class UserController {
 	}
 	
 	// 관리자 - admin
+	@Secured("2")
 	@GetMapping("/admin")	
 	public String admin() {
 		System.out.println("UserController enter");
