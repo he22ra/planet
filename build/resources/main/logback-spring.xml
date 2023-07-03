@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+	
+	<appender name="STDOUT" class="ch.qos.logback.core.ConsoleAppender">
+		<!--layout class="ch.qos.logback.classic.PatternLayout"-->
+		<encoder>
+			<Pattern>%d{yyyy-MM-dd HH:mm:ss} [%-16.16thread] %-5level %-32.32logger{36} - %msg%n</Pattern>
+		</encoder>
+		<!--/layout-->
+	</appender>
+
+	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
+		<file>/Users/heera15mac/log/blog-main/blog-frontend.log</file>
+		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+			<fileNamePattern>/Users/heera15mac/log/blog-main/blog-frontend.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+				<maxFileSize>10MB</maxFileSize>
+			</timeBasedFileNamingAndTriggeringPolicy>
+			<maxHistory>60</maxHistory>
+		</rollingPolicy>
+		<encoder>
+			<pattern>%d{yyyy-MM-dd HH:mm:ss} [%-16.16thread] %-5level %-32.32logger{36} - %msg%n</pattern>
+		</encoder>
+	</appender>
+	
+    <!-- log4jdbc 옵션 설정 -->
+    <logger name="jdbc" 				level="off" /> 
+    <logger name="jdbc.sqlonly" 		level="off" /> 		<!-- SQL문 -->
+    <logger name="jdbc.sqltiming" 		level="debug" />	<!-- SQL문과 해당 SQL을 실행시키는데 수행된 시간 정보(milliseconds) -->
+    <logger name="jdbc.audit" 			level="off"/>		<!-- ResultSet을 포함한 모든 JDBC 호출 정보 (권장X) -->
+    <logger name="jdbc.connection" 		level="off" />		<!-- 커넥션 open close 이벤트 -->
+    <logger name="jdbc.resultset" 		level="off"/>		<!-- ResultSet을 제외한 모든 JDBC 호출 정보 (권장X)-->
+    <logger name="jdbc.resultsettable" 	level="debug" />	<!-- SQL 결과 조회된 데이터의 table -->
+    <logger name="com.blog.main" 		level="debug" />	<!-- level="info"일때, LoggerAspect 출력안됨 -->
+    <logger name="com.zaxxer.hikari" 	level="info"/>
+    
+	<!-- Root Logger -->
+    <root level="info">
+		<appender-ref ref="ROLLING"/>
+		<appender-ref ref="STDOUT"/>
+	</root>
+ 
+</configuration>

@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+    <th:block layout:fragment="title">
+        <title>글작성 페이지</title>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <div class="page_tits">
+            <h3>게시판 관리</h3>
+            <p class="path"><strong>현재 위치 :</strong> <span>게시판 관리</span> <span>리스트형</span> <span>글작성</span></p>
+        </div>
+
+        <div class="content">
+            <section>
+                <form id="saveForm" method="post" autocomplete="off">
+                    <!--/* 게시글 수정인 경우, 서버로 전달할 게시글 번호 (PK) */-->
+                    <input type="hidden" id="id" name="id" th:if="${post != null}" th:value="${post.id}" />
+
+                    <!--/* 서버로 전달할 공지글 여부 */-->
+                    <input type="hidden" id="noticeYn" name="noticeYn" />
+                    
+                    <table class="table project-table table-centered bg-light border-top border-2">
+						<tbody>
+						  <tr>
+						    <th scope="col">제목 <span class="es">필수 입력</span></th>
+						    <td scope="col" class="col-2">
+			              		<span class="chkbox"><input type="checkbox" id="isNotice" name="isNotice" class="chk" /><i></i><label for="isNotice"> 공지사항 체크 </label></span>
+						    </td>
+						    <td>
+		  						<input type="text" id="title" name="title" maxlength="50" placeholder="제목을 입력해 주세요." />
+						    </td>
+						  </tr>
+						  <tr>
+						    <th scope="col">등록일</th>
+						    <td colspan="2">
+		  						<input type="text" id="createdDate" name="createdDate" readonly />
+						    </td>
+						  </tr>
+						  <tr>
+						    <th scope="col">이름 <span class="es">필수 입력</span></th>
+						    <td colspan="2">
+		  						<input type="text" id="writer" name="writer" maxlength="10" placeholder="이름을 입력해 주세요." />
+						    </td>
+						  </tr>
+						  <tr>
+						    <th scope="col">내용 <span class="es">필수 입력</span></th>
+						    <td colspan="2">
+		  						<textarea id="contents" name="contents" cols="50" rows="10" placeholder="내용을 입력해 주세요."></textarea>
+						    </td>
+						  </tr>
+						</tbody>
+					</table>
+                </form>
+                <p class="btn_set">
+                    <button type="button" id="saveBtn" onclick="savePost();" class="btn btn-outline-primary">저장</button>
+                    <a th:href="@{/post/list.do}" class="btn btn-outline-primary">목록</a>
+                </p>
+            </section>
+        </div> <!--/* .content */-->
+    </th:block>
+
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+
+            window.onload = () => {
+                initCreatedDate();
+                renderPostInfo();
+            }
+			
+         	// 게시글 상세정보 렌더링
+            function renderPostInfo() {
+                const post = [[ ${post} ]];
+
+                if ( !post ) {
+                    initCreatedDate();
+                    return false;
+                }
+
+                const form = document.getElementById('saveForm');
+                const fields = ['id', 'title', 'contents', 'writer', 'noticeYn'];
+                form.isNotice.checked = (post.noticeYn == 1) ? true : false ;
+                form.createdDate.value = dayjs(post.createdDate).format('YYYY-MM-DD HH:mm');
+
+                fields.forEach(field => {
+                    form[field].value = post[field];
+                })
+            }
+
+            // 등록일 초기화
+            function initCreatedDate() {
+                document.getElementById('createdDate').value = dayjs().format('YYYY-MM-DD');
+            }
+
+
+            // 게시글 저장(수정)
+            function savePost() {
+                const form = document.getElementById('saveForm');
+                const fields = [form.title, form.writer, form.contents];
+                const fieldNames = ['제목', '이름', '내용'];
+
+/*                 for (let i = 0, len = fields.length; i < len; i++) {
+                    isValid(fields[i], fieldNames[i]);
+                } */
+				
+                document.getElementById('saveBtn').disabled = true;
+                form.noticeYn.value = (form.isNotice.checked) ? 1 : 0;
+                form.action = [[ ${post == null} ]] ? '/post/save.do' : '/post/update.do';
+                form.submit();
+            }
+
+        /*]]>*/
+        </script>
+    </th:block>
+</html>
