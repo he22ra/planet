@@ -25,7 +25,13 @@ import lombok.RequiredArgsConstructor;
 public class PostController {
 
 	private final PostService postService;
-	
+
+    // 일정 리스트(달력) 페이지
+    @GetMapping("/post/calendar.do")	//ModelAttribute : 파라미터로 수집한 객체를 자동으로 뷰(HTML)에 전달.
+    public String calendarList() {
+        return "post/calendar";
+    }
+
 	// 게시글 리스트 페이지
 	@GetMapping("/post/list.do")	//ModelAttribute : 파라미터로 수집한 객체를 자동으로 뷰(HTML)에 전달.
 	public String openPostList(@ModelAttribute("params") final SearchDto params, Model model) {

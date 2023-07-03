@@ -50,8 +50,9 @@ dependencies {
 	implementation 'org.springframework.boot:spring-boot-starter-aop'
 	
 	// https://mvnrepository.com/artifact/javax.transaction/javax.transaction-api
-	implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'	
-    
+	implementation group: 'javax.transaction', name: 'javax.transaction-api', version: '1.2'
+    testImplementation 'org.projectlombok:lombok:1.18.26'
+
     compileOnly 'org.projectlombok:lombok'
     annotationProcessor 'org.projectlombok:lombok'
     annotationProcessor 'org.springframework.boot:spring-boot-configuration-processor'

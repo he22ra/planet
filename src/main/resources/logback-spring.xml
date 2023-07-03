@@ -10,9 +10,9 @@
 	</appender>
 
 	<appender name="ROLLING" class="ch.qos.logback.core.rolling.RollingFileAppender">
-		<file>/log/blog-main/blog-frontend.log</file>
+		<file>/Users/heera15mac/log/blog-main/blog-frontend.log</file>
 		<rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
-			<fileNamePattern>/log/blog-main/blog-frontend.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
+			<fileNamePattern>/Users/heera15mac/log/blog-main/blog-frontend.%d{yyyy-MM-dd}.%i.log</fileNamePattern>
 			<timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
 				<maxFileSize>10MB</maxFileSize>
 			</timeBasedFileNamingAndTriggeringPolicy>

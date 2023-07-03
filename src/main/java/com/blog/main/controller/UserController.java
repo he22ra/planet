@@ -34,7 +34,7 @@ public class UserController {
 	private BCryptPasswordEncoder bCryptPasswordEncoder;
 	
 	// 로그인 페이지
-	@GetMapping("/login.do")
+	@GetMapping("ㅊ")
 	public String loginForm() {
 		System.out.println("UserController enter :: 로그인 페이지");
         return "user/login";
