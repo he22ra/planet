@@ -12,20 +12,20 @@
     
         <div class="content">
             <section>
-                <table class="container text-center" id="calendar_table">
-                    <tr class="row" id="mainBar">
-                        <td class="col" id="preventMonth" colspan="1"><input type="button" id="preventMonth_Button" onclick="preventMonth()"></td>
-                        <td class="col" id="yearMonth" colspan="5"></td>
-                        <td class="col" id="nextMonth" colspan="1"><input type="button" id="nextMonth_Button" onclick="nextMonth()"></td>
+                <table class="table container text-center" id="calendar_table">
+                    <tr id="mainBar">
+                        <td id="preventMonth" colspan="1"><input type="button" id="preventMonth_Button" onclick="preventMonth()"></td>
+                        <td id="yearMonth" colspan="5"></td>
+                        <td id="nextMonth" colspan="1"><input type="button" id="nextMonth_Button" onclick="nextMonth()"></td>
                     </tr>
-                    <tr class="row" id="subBar">
-                        <td class="col">일</td>
-                        <td class="col">월</td>
-                        <td class="col">화</td>
-                        <td class="col">수</td>
-                        <td class="col">목</td>
-                        <td class="col">금</td>
-                        <td class="col">토</td>
+                    <tr id="subBar">
+                        <td>일</td>
+                        <td>월</td>
+                        <td>화</td>
+                        <td>수</td>
+                        <td>목</td>
+                        <td>금</td>
+                        <td>토</td>
                     </tr>
                 </table>
             </section>
@@ -55,21 +55,25 @@
             function buildCalendar(){
                 let leftDays = 7; // setDays 와 반비례
                 let setDays = 1;// leftDays 와 반비례
-                for(i = 1; i < week; i++){
+
+                for(let i = 1; i < week; i++){
                     let row = calendar.insertRow();
                     while(day != 0){
                         row.insertCell().innerHTML = "";
+                        row.setAttribute("id","weekBar");
                         day -= 1;
                         leftDays -= 1;
                     } // 1주
                     let nextMonthDate = 1;
                     while(leftDays != 0){
                         if(setDays > lastDate.getDate()){
-                            row.insertCell().innerHTML = nextMonthDate;
+                            row.insertCell().innerHTML = '<span class="text-muted">'+nextMonthDate+'</span>';
+                            row.setAttribute("id","weekBar");
                             leftDays -= 1;
                             nextMonthDate += 1;
                         }else{
                             row.insertCell().innerHTML = setDays;
+                            row.setAttribute("id","weekBar");
                             setDays +=1;
                             leftDays -= 1;
                         }
@@ -78,7 +82,15 @@
                 }
 
             }
+            function setTableStyle(){
+                $('#calendar_table tr').addClass('row');
+                $('#mainBar td').addClass('col');
+                $('#subBar td').addClass('col');
+                $('#weekBar td').addClass('col align-top');
+
+            }
             buildCalendar();
+            setTableStyle();
         /*]]>*/
         </script>
     </th:block>
