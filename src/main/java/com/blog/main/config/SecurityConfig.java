@@ -59,7 +59,8 @@ public class SecurityConfig /*extends WebSecurityConfigurerAdapter -> Deprecated
 		.csrf().disable()	//csrf : 정상적인 사용자가 의도치 않은 위조요청을 보내는 것
 		.authorizeRequests()
 		.antMatchers("/user/**").authenticated()
-		.antMatchers("/manager/**").access("hasRole('1') or hasRole('2')")
+		.antMatchers("/manager/**").hasRole("1")
+//		.antMatchers("/manager/**").access("hasRole('1') or hasRole('2')")
 		.antMatchers("/admin/**").hasRole("2")
 		.anyRequest().permitAll()
 		.and()

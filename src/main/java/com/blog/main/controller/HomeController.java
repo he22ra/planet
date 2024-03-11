@@ -21,7 +21,7 @@ public class HomeController {
 	
 	@GetMapping("/home")
 	public String goHome(HttpServletRequest request) {
-		System.out.println("Home enter");
+		System.out.println("=== Home enter Success===");
 		// 사용자 정보 조회
 		UserResponse params = new UserResponse();
 		
