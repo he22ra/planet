@@ -105,7 +105,7 @@
 
             // 등록일 초기화
             function initCreatedDate() {
-                document.getElementById('createdDate').innerHTML = dayjs().format('YYYY-MM-DD HH:mm:ss');
+                document.getElementById('createdDate').innerHTML = dayjs(row.createdDate).format('YYYY-MM-DD HH:mm:ss');
             }
          	// 게시글 수정
             function goWritePage() {

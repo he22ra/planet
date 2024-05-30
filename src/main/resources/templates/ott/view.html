@@ -1,0 +1,108 @@
+<!DOCTYPE html>
+<html lang="ko" xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout" layout:decorate="layout/basic">
+    <th:block layout:fragment="title">
+        <title>상세 페이지</title>
+    </th:block>
+
+    <th:block layout:fragment="content">
+        <div class="page_tits">
+            <h3>게시판 관리</h3>
+            <p class="path"><strong>현재 위치 :</strong> <span>게시판 관리</span> <span>리스트형</span> <span>상세정보</span></p>
+        </div>
+    
+        <div class="content">
+            <section>
+                <table class="table">
+                    <colgroup>
+                        <col style="width:10%;" /><col style="width:23%;" /><col style="width:10%;" /><col style="width:23%;" />
+                    </colgroup>
+                    <tbody>
+                        <tr>
+                            <th scope="row">글 유형</th>
+                            <td th:text="${ott.noticeYn == 0 ? '일반' : '공지'}"></td>
+    
+                            <th scope="row">등록일</th>
+                            <td id="createdDate">[[ ${ott.createdDate} ]]</td>
+                            <th scope="row">수정일</th>
+                            <td id="modifiedDate">[[ ${ott.modifiedDate} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">제목</th>
+                            <td>[[ ${ott.title} ]]</td>
+    
+                            <th scope="row">조회</th>
+                            <td colspan="3">[[ ${ott.viewCnt} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">이름</th>
+                            <td colspan="3">[[ ${ott.writer} ]]</td>
+                        </tr>
+                        <tr>
+                            <th scope="row">내용</th>
+                            <td colspan="3">[[ ${ott.contents} ]]</td>
+                        </tr>
+                    </tbody>
+                </table>
+                <p class="btn_set">
+                	<button type="button" onclick="goWritePage();" class="btn btn-outline-primary">수정</button>
+                	<button type="button" onclick="deletePost();" class="btn btn-outline-primary">삭제</button>
+                	<button type="button" onclick="goListPage();" class="btn btn-outline-primary">목록</button>
+                </p>
+                
+            </section>
+        </div> <!--/* .content */-->
+        
+    </th:block>
+    
+    <th:block layout:fragment="script">
+        <script th:inline="javascript">
+        /*<![CDATA[*/
+
+            window.onload = () => {
+				initDate();
+            }
+
+            // 등록일 초기화
+            function initDate() {
+                document.getElementById('createdDate').innerHTML = dayjs(row.createdDate).format('YYYY-MM-DD HH:mm:ss');                document.getElementById('modifiedDate').innerHTML = dayjs(row.modifiedDate).format('YYYY-MM-DD HH:mm:ss');            }
+         	// 게시글 수정
+            function goWritePage() {
+                location.href = '/ott/write.do' + location.search;	//url 쿼리 스트링 리턴
+            }
+         	
+         	// 게시글 목록
+         	function goListPage(){
+         		const queryString = new URLSearchParams(location.search);	// 쿼리 스트링 객체화
+         		queryString.delete('id');	// 글 번호(id) 삭제
+         		console.log(queryString.toString());
+         		location.href ='/ott/list.do'+ '?' + queryString.toString();
+         	}
+         
+            // 게시글 삭제
+            function deletePost() {
+                const id = [[ ${ott.id} ]];
+                if ( !confirm(id + '번 게시글을 삭제할까요?') ) {
+                    return false;
+                }
+                
+                let inputHtml = '';
+                
+                new URLSearchParams(location.search).forEach((value, key) => {
+                	inputHtml += `<input type="hidden" name="${key}" value="${value}" />`;
+                })
+                
+                const formHtml = `
+                    <form id="deleteForm" action="/ott/delete.do" method="post">
+                        ${inputHtml}
+                    </form>
+                `;
+                const doc = new DOMParser().parseFromString(formHtml, 'text/html');
+                const form = doc.body.firstChild;
+                document.body.append(form);
+                document.getElementById('deleteForm').submit();
+            }
+
+        /*]]>*/
+        </script>
+    </th:block>
+</html>
