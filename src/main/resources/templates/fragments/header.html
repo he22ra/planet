@@ -6,11 +6,32 @@
 
    	<th:block layout:fragment="title"></th:block>
 
-    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
-    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/styles.css}" />
+<!--    <link rel="stylesheet" th:href="@{/css/bootstrap.min.css}" />
+    <link rel="stylesheet" th:href="@{/css/bootstrap-grid.min.css}" />-->
 <!--     <link rel="stylesheet" th:href="@{/css/bootstrap-reboot.min.css" /> -->
 <!--     <link rel="stylesheet" th:href="@{/css/bootstrap-utilities.min.css" /> -->
 
-    <th:block layout:fragment="add-css"></th:block>
+    <th:block layout:fragment="add-css">
+        <!-- <script src="https://cdn.tailwindcss.com"></script> -->
+        <script>
+            tailwind.config = {
+            theme: {
+                extend: {
+                colors: {
+                    clifford: '#da373d',
+                }
+                }
+            }
+            }
+        </script>
+         <style type="text/tailwindcss">
+            @layer utilities {
+              .content-auto {
+                content-visibility: auto;
+              }
+            }
+          </style>
+    </th:block>
 </head>
 </html>
