@@ -39,6 +39,7 @@ class App extends React.Component {
   getPostersAndPlot = async (movieTitle, releaseDts) => {
     let ServiceKey = 'LZ9S389G2U0IY99S0822';
     try {
+      movieTitle = movieTitle.split('(');
       const response = await axios.get(
         "http://api.koreafilm.or.kr/openapi-data2/wisenut/search_api/search_json2.jsp?collection=kmdb_new2&detail=Y" +
           "&title=" + movieTitle +
