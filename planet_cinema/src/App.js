@@ -2,16 +2,13 @@ import React from 'react';
 import axios from 'axios';
 import Movie from "./Movie";
 
-// import PropTypes from 'prop-types';
-// import logo from './logo.svg';
-// import './App.css';
-
 class App extends React.Component {
   state = {
     isLoading: true,
     movies: [],
     dates: [],
     posters: {},
+    plots: {},
   };
   getMovies = async () => {
     var today = new Date();
@@ -32,14 +29,14 @@ class App extends React.Component {
     const dates = yesterday.toISOString().replace('T', ' ').split(' ')[0];
     this.setState({ movies: dailyBoxOfficeList, isLoading : false, dates});
 
-    // Fetch posters for each movie
+    // KMDB poster, plot
     dailyBoxOfficeList.forEach(movie => {
-      this.getPosters(movie.movieNm, movie.openDt);
+      this.getPostersAndPlot(movie.movieNm, movie.openDt);
     });
 
   }
 
-  getPosters = async (movieTitle, releaseDts) => {
+  getPostersAndPlot = async (movieTitle, releaseDts) => {
     let ServiceKey = 'LZ9S389G2U0IY99S0822';
     try {
       const response = await axios.get(
@@ -48,17 +45,22 @@ class App extends React.Component {
           "&releaseDts=" + releaseDts +
           "&ServiceKey=" + ServiceKey
       );
-       // Extract poster URL
-      const posterData = response.data.Data[0].Result[0].posters.split('|')[0]; // Use the first poster in the list
-      console.log(posterData);
+      const result = response.data.Data[0].Result[0];
+      const posterData = result.posters.split('|')[0];
+      const plotData = result.plots.plot[0].plotText;
+
       this.setState(prevState => ({
         posters: {
           ...prevState.posters,
-          [movieTitle]: posterData
-        }
+          [movieTitle]: posterData,
+        },
+        plots: {
+          ...prevState.plots,
+          [movieTitle]: plotData,
+        },
       }));
     } catch (error) {
-      console.error("Error fetching poster for movie:", movieTitle, error);
+      console.error("Error poster :", movieTitle, error);
     }
   };
   
@@ -66,17 +68,19 @@ class App extends React.Component {
   componentDidMount() {
     // 영화 데이터 로딩!
     this.getMovies();
-    this.getPosters();
+    this.getPostersAndPlot();
   }
 
   render() {
-    const {isLoading, movies, dates, posters} = this.state;
-    return <div>
-              <h1>{dates} 박스오피스 10</h1>
+    const {isLoading, movies, dates, posters, plots} = this.state;
+    return <div class="p-3">
+              <h2 class="fst-italic fw-bold mb-3">{dates} 박스오피스 10</h2>
               {isLoading
                 ? 'Loading...'
                 : movies.map((movie) => {
                   const poster = posters[movie.movieNm];
+                  const plot = plots[movie.movieNm];
+                  
                   return(
                     <Movie 
                     key={movie.movieCd}
@@ -86,6 +90,7 @@ class App extends React.Component {
                     movieNm={movie.movieNm}
                     audiCnt={movie.audiCnt}
                     poster={poster}
+                    plot={plot}
                     />
                   ); 
                 })}
