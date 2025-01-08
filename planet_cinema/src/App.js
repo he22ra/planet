@@ -10,6 +10,7 @@ class App extends React.Component {
     dates: [],
     posters: {},
     plots: {},
+    urls:{},
   };
   getMovies = async () => {
     var today = new Date();
@@ -51,6 +52,7 @@ class App extends React.Component {
       const result = response.data.Data[0].Result[0];
       const posterData = result.posters.split('|')[0];
       const plotData = result.plots.plot[0].plotText;
+      const urlData = result.kmdbUrl;
 
       this.setState(prevState => ({
         posters: {
@@ -60,6 +62,10 @@ class App extends React.Component {
         plots: {
           ...prevState.plots,
           [movieTitle]: plotData,
+        },
+        urls: {
+          ...prevState.urls,
+          [movieTitle]: urlData,
         },
       }));
     } catch (error) {
@@ -75,7 +81,7 @@ class App extends React.Component {
   }
 
   render() {
-    const {isLoading, movies, dates, posters, plots} = this.state;
+    const {isLoading, movies, dates, posters, plots, urls} = this.state;
     return <div className="p-3 flex-row justify-content-center bg-light" id="main-container" style={{ width: "1000px", margin: "0 auto" }}>
               <div id="logo">LOGO TITLE</div>
               <div className="fst-italic fw-bold mb-3">{dates} 박스오피스 10</div>
@@ -88,7 +94,7 @@ class App extends React.Component {
                   : movies.map((movie) => {
                     const poster = posters[movie.movieNm];
                     const plot = plots[movie.movieNm];
-                    
+                    const url = urls[movie.movieNm];
                     
                     return(
                       <MovieTest 
@@ -100,6 +106,7 @@ class App extends React.Component {
                       audiCnt={movie.audiCnt}
                       poster={poster}
                       plot={plot}
+                      url={url}
                       />
                     ); 
                   })}
