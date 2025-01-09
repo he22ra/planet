@@ -14,7 +14,7 @@ public class OttResponse {
 	private Long id;						//pk	수정(update)할때 where조건으로 필요함
 	private String title;					//제목
 	private String contents;				//내용
-	private String writer;					//작성자
+	private Long writer;					//작성자
 	private int viewCnt;					//조회수
 	private Integer noticeYn;				//공지글 여부
 	private Integer deleteYn;				//삭제 여부
