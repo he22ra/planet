@@ -7,6 +7,7 @@
     <sql id="ottColumns">
           id
         , title
+        , review
         , contents
         , writer
         , view_cnt
@@ -29,6 +30,7 @@
     	) VALUES (
     			DEFAULT
     		,	#{title}
+    		,	#{review}
     		,	#{contents}
         	,	#{writer}
             , 	0
@@ -61,6 +63,7 @@
         SET
               modified_date = NOW()
             , title = #{title}
+            , review = #{review}
             , contents = #{contents}
             , writer = #{writer}
             , notice_yn = #{noticeYn}
@@ -118,6 +121,9 @@
     			<when test="'title'.equals( searchType )">
     				AND title LIKE CONCAT('%', #{keyword}, '%')
     			</when>
+    			<when test="'review'.equals( searchType )">
+    				AND review LIKE CONCAT('%', #{keyword}, '%')
+    			</when>
     			<when test="'contents'.equals( searchType )">
     				AND contents LIKE CONCAT('%', #{keyword}, '%')
     			</when>
@@ -129,6 +135,7 @@
     			<otherwise>
     				AND (
     						title LIKE CONCAT('%', #{keyword}, '%')
+    					OR	review LIKE CONCAT('%', #{keyword}, '%')
     					OR	contents LIKE CONCAT('%', #{keyword}, '%')
     					OR	writer LIKE CONCAT('%', #{keyword}, '%')
     				)

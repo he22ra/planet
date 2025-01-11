@@ -10,7 +10,7 @@
                 <h2 class="text-2xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-2xl">최신 리뷰 한줄평</h2>
                 <p class="mt-1 text-lg/8 text-gray-600">Learn how to grow your business with our expert advice.</p>
             </div>
-            <div id="list" class="mx-auto mt-2 grid grid-cols-1 gap-x-8 gap-y-10 pt-4 sm:mt-4 sm:pt-4 lg:mx-0 lg:max-w-none lg:grid-cols-3">
+            <div id="list" class="mx-auto mt-2 flex flex-nowrap overflow-auto scroll-auto pt-4 sm:mt-4 sm:pt-4 lg:mx-0 lg:max-w-none">
                 <!-- <article class="flex max-w-xl flex-col items-start justify-between">
                     <div class="flex items-center justify-between gap-x-4 text-xs">
                         <time datetime="2020-03-16" class="text-gray-500">Mar 16, 2020</time>
@@ -147,10 +147,10 @@
                  */
                 list.forEach(row => {
                     html += `
-                        <article class="flex max-w-xl flex-col items-start justify-between">
-                            <div class="flex items-center justify-between gap-x-4 text-xs">
+                        <article class="mr-12 flex flex-col w-64 min-w-72">
+                            <div class="flex items-center justify-between text-xs">
                                 <time datetime="${dayjs(row.createdDate).format('YYYY-MM-DD')}" class="text-gray-500">${dayjs(row.createdDate).format('YYYY-MM-DD')}</time>
-                                <a href="#" class="relative z-10 rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">${row.rating}</a>
+                                <a href="#" class="rounded-full bg-gray-50 px-3 py-1.5 font-medium text-gray-600 hover:bg-gray-100">${row.platform}</a>
                             </div>
                             <div class="group relative mt-2">
                                 <a href="javascript:void(0);" onclick="goViewPage(${row.id});">
@@ -161,7 +161,7 @@
                                         </h3>
                                     </div>
                                 </a>
-                                <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">${row.contents}</p>
+                                <p class="mt-5 line-clamp-3 text-sm/6 text-gray-600">${row.review}</p>
                             </div>
                         </article>
                     `;

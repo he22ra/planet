@@ -30,5 +30,6 @@ public class OttResponse {
 	private Date viewDte;					//시청 종료 날짜	
 	private String platform;				//플랫폼
 	private String thumbnail;				//썸네일
+	private String review;					//한줄평
 	
 }
