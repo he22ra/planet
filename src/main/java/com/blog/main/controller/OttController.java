@@ -14,9 +14,11 @@ import org.springframework.web.bind.annotation.RequestParam;
 import com.blog.main.common.dto.MessageDto;
 import com.blog.main.common.dto.SearchDto;
 import com.blog.main.common.paging.PagingResponse;
+import com.blog.main.ott.CollectResponse;
 import com.blog.main.ott.OttRequest;
 import com.blog.main.ott.OttResponse;
 import com.blog.main.service.OttService;
+import com.blog.main.service.CollectService;
 
 import lombok.RequiredArgsConstructor;
 
@@ -25,11 +27,14 @@ import lombok.RequiredArgsConstructor;
 public class OttController {
 
 	private final OttService ottService;
+	private final CollectService collectService;
 	//  메인 페이지
 	@GetMapping("/ott/main.do")	
 	public String openOttMain(@ModelAttribute("params") final SearchDto params, Model model) {
 		PagingResponse<OttResponse> response = ottService.findAllOtt(params);
 		model.addAttribute("response", response);
+		PagingResponse<CollectResponse> collectResponse = collectService.findAllCollect(params);
+        model.addAttribute("collectResponse", collectResponse);
 		return "ott/main";
 	}
 

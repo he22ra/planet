@@ -35,28 +35,8 @@
                 <h2 class="text-2xl font-semibold tracking-tight text-pretty text-gray-900 sm:text-2xl">추천 컬렉션</h2>
                 <p class="mt-1 text-lg/8 text-gray-600">Learn how to grow your business with our expert advice.</p>
             </div>
-            <div class="mx-auto mt-2 pt-4 sm:mt-4 sm:pt-4 lg:mx-0 lg:max-w-none grid grid-cols-1 gap-y-10">
-                <article class="flex flex-wrap-reverse justify-between items-end mb-4 w-auto">
-                    <div class="group relative pr-8 grid">
-                        <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
-                            <a href="#">
-                            <span class="absolute inset-0"></span>
-                            아름다운 세계를 가진 SF
-                            </a>
-                        </h3>
-                        <p class="mt-2 line-clamp-3 text-sm/6 text-gray-600">정말 아름다운 이야기였어</p>
-                        <time datetime="2020-02-12" class="text-gray-500 text-xs content-end">Feb 12, 2020</time>
-                    </div>
-                    <div class="flex justify-end">
-                        <div class="flex items-center grid grid-cols-4 gap-x-4">
-                            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
-                            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
-                            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
-                            <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
-                        </div>
-                    </div>
-                </article>
-                <article class="flex flex-wrap-reverse justify-between items-end mb-4 w-auto">
+            <div id="collectList" class="mx-auto mt-2 pt-4 sm:mt-4 sm:pt-4 lg:mx-0 lg:max-w-none grid grid-cols-1 gap-y-10">
+                <!-- <article class="flex flex-wrap-reverse justify-between items-end mb-4 w-auto">
                     <div class="group relative pr-8">
                         <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
                             <a href="#">
@@ -75,7 +55,7 @@
                             <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
                         </div>
                     </div>
-                </article>
+                </article> -->
             </div> <!-- 추천컬렉션 end -->
         </div>
     </th:block>
@@ -87,6 +67,7 @@
             window.onload = () => {
                 setQueryStringParams();
                 findAllOtt();
+                findAllCollection();
             }
 			
             // 쿼리 스트링 파라미터 고정
@@ -105,32 +86,45 @@
             	})
             }
 
-            // 게시글 리스트 조회
+            // Ott 게시글 리스트 조회
             function findAllOtt() {
-
                 // 1. PagingResponse의 멤버인 List<T> 타입의 list를 의미
                 const list = [[ ${response.list} ]];
-
                 // 2. 리스트가 비어있는 경우, 행에 "검색 결과가 없다"는 메시지를 출력하고, 페이지 번호(페이지네이션) HTML을 제거(초기화)한 후 로직을 종료
                 if ( !list.length ) {
                     document.getElementById('list').innerHTML = '<td colspan="6"><div className="no_data_msg">검색된 결과가 없습니다.</div></td>';
                     drawPage();
                 }
-
                 // 3. PagingResponse의 멤버인 pagination을 의미
                 const pagination = [[ ${response.pagination} ]];
-
                 // 4. @ModelAttribute를 이용해서 뷰(HTML)로 전달한 SearchDto 타입의 객체인 params를 의미
                 const params = [[ ${params} ]];
-
                 // 5. 리스트에 출력되는 게시글 번호를 처리하기 위해 사용되는 변수 (리스트에서 번호는 페이지 정보를 이용해서 계산해야 함)
                 let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
-
                 // 6. 리스트 데이터 렌더링
                 drawList(list, num);
-
                 // 7. 페이지 번호 렌더링
                 drawPage(pagination, params);
+            }
+            // Collection 게시글 리스트 조회
+            function findAllCollection() {
+                // 1. PagingResponse의 멤버인 List<T> 타입의 list를 의미
+                const collectList = [[ ${collectResponse.list} ]];
+                // 2. 리스트가 비어있는 경우, 행에 "검색 결과가 없다"는 메시지를 출력하고, 페이지 번호(페이지네이션) HTML을 제거(초기화)한 후 로직을 종료
+                if ( !collectList.length ) {
+                    document.getElementById('collectList').innerHTML = '<td colspan="6"><div className="no_data_msg">검색된 결과가 없습니다.</div></td>';
+                    drawCollectPage();
+                }
+                // 3. PagingResponse의 멤버인 pagination을 의미
+                const pagination = [[ ${collectResponse.pagination} ]];
+                // 4. @ModelAttribute를 이용해서 뷰(HTML)로 전달한 SearchDto 타입의 객체인 params를 의미
+                const params = [[ ${params} ]];
+                // 5. 리스트에 출력되는 게시글 번호를 처리하기 위해 사용되는 변수 (리스트에서 번호는 페이지 정보를 이용해서 계산해야 함)
+                let num = pagination.totalRecordCount - ((params.page - 1) * params.recordSize);
+                // 6. 리스트 데이터 렌더링
+                drawCollectList(collectList, num);
+                // 7. 페이지 번호 렌더링
+                drawCollectPage(pagination, params);
             }
 
 
@@ -169,6 +163,46 @@
 
                 // 3. id가 "list"인 요소를 찾아 HTML을 렌더링
                 document.getElementById('list').innerHTML = html;
+            }
+
+             // Collection리스트 HTML draw
+             function drawCollectList(collectList, num) {
+
+                // 1. 렌더링 할 HTML을 저장할 변수
+                let html = '';
+
+                /*
+                 * 2. 기존에 타임리프(Thymeleaf)를 이용해서 리스트 데이터를 그리던 것과 유사한 로직
+                 *    기존에는 게시글 번호를 (전체 데이터 수 - loop의 인덱스 번호)로 처리했으나,
+                 *	  현재는 (전체 데이터 수 - ((현재 페이지 번호 - 1) * 페이지당 출력할 데이터 개수))로 정밀히 계산
+                 */
+                 collectList.forEach(collectRow => {
+                    html += `
+                        <article class="flex flex-wrap-reverse justify-between items-end mb-4 w-auto">
+                            <div class="group relative pr-8 grid">
+                                <h3 class="mt-3 text-lg/6 font-semibold text-gray-900 group-hover:text-gray-600">
+                                    <a href="#">
+                                    <span class="absolute inset-0"></span>
+                                    ${collectRow.title}
+                                    </a>
+                                </h3>
+                                <p class="mt-2 line-clamp-3 text-sm/6 text-gray-600">${collectRow.contents}</p>
+                                <time datetime="2020-02-12" class="text-gray-500 text-xs content-end">Feb 12, 2020</time>
+                            </div>
+                            <div class="flex justify-end">
+                                <div class="flex items-center grid grid-cols-4 gap-x-4">
+                                    <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
+                                    <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
+                                    <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
+                                    <img src="https://images.unsplash.com/photo-1519244703995-f4e0f30006d5?ixlib=rb-1.2.1&amp;ixid=eyJhcHBfaWQiOjEyMDd9&amp;auto=format&amp;fit=facearea&amp;facepad=2&amp;w=256&amp;h=356&amp;q=80" alt="" class="max-w-32 max-h-48 min-w-10 min-h-12 rounded bg-gray-50">
+                                </div>
+                            </div>
+                        </article>
+                    `;
+                })
+
+                // 3. id가 "list"인 요소를 찾아 HTML을 렌더링
+                document.getElementById('collectList').innerHTML = html;
             }
             
          	// 게시글 상세 페이지로 이동
